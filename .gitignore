@@ -334,3 +334,4 @@ ASALocalRun/
 .localhistory/
 *.vcxproj
 SFML_TicTacToe.vcxproj
+*.vcxproj
