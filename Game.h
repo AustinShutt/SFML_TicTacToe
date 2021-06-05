@@ -10,6 +10,15 @@ class Game
 	MenuButton menuButton;
 	ResetButton resetButton;
 	
+
+	//Xplayer
+	//O_player
+	//playerPtr;
+
+	char board[3][3] = { {'-','-','-'},
+						 {'-','-','-'},
+						 {'-','-','-'} };
+	
 	bool vsComputer;
 	bool isPlaying;
 
@@ -22,6 +31,7 @@ private:
 	void Update();
 	void Render();
 
+	//Helper Functions
 private:
 };
 

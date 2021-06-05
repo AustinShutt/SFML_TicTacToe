@@ -22,6 +22,9 @@ void Game::HandleEvents()
 
 	while (window.pollEvent(event))
 	{
+		menuButton.addEventHandler(window, event);
+		resetButton.addEventHandler(window, event);
+		
 		if (event.type == sf::Event::Closed)
 		{
 			window.close();
@@ -34,6 +37,8 @@ void Game::HandleEvents()
 				sf::Vector2i windowPos = sf::Mouse::getPosition(window);
 				sf::Vector2f mousePos = window.mapPixelToCoords(windowPos);
 
+				
+				
 				if (menuButton.getGlobalBounds().contains(mousePos))
 				{
 					isPlaying = false;
@@ -60,6 +65,7 @@ void Game::Render()
 	window.draw(background);
 	window.draw(menuButton);
 	window.draw(resetButton);
+	//window.draw(displayGrid);
 
 	window.display();
 }

@@ -13,7 +13,7 @@ public:
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const;
 	virtual void addEventHandler(sf::RenderWindow& window, sf::Event event);
 	virtual void update();
-	bool isClicked(sf::Vector2f mousePos) { if (sprite.getGlobalBounds().contains(mousePos)) { return true; } return false; }
+	bool isWithin(sf::Vector2f mousePos) { if (sprite.getGlobalBounds().contains(mousePos)) { return true; } return false; }
 	sf::FloatRect getGlobalBounds() { return sprite.getGlobalBounds(); }
 
 };
