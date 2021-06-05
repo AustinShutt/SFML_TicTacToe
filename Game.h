@@ -3,6 +3,7 @@
 #include "Background.h"
 #include "Buttons.h"
 #include "MarkerDisplay.h"
+#include "Player.h"
 
 class Game
 {
@@ -10,14 +11,17 @@ class Game
 	Background background;
 	MenuButton menuButton;
 	ResetButton resetButton;
+	Human_Player human;
+	Human_Player human2;
+	Player* currentPlayer;
 	
 
 	//Xplayer
 	//O_player
 	//playerPtr;
 
-	BoardArray board = {{{ 'x','-','o' },
-						 { 'x','o','-' },
+	BoardArray board = {{{ '-','-','-' },
+						 { '-','-','-' },
 						 { '-','-','-' }}};
 	
 	MarkerDisplay markerDisplay;

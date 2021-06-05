@@ -4,15 +4,10 @@
 
 class GamePiece : public sf::Drawable
 {
-
-	sf::Texture texture;
 	sf::Sprite sprite;
 
 public:
-	GamePiece(char piece) {
-
-		if (piece == 'x') { texture.loadFromFile("Assets/X.png"); }
-		else { texture.loadFromFile("Assets/O.png"); }
+	GamePiece(sf::Texture& texture) {
 
 		sprite.setTexture(texture);
 	}

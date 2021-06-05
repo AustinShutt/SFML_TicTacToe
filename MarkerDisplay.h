@@ -10,12 +10,13 @@ class MarkerDisplay : public sf::Drawable
 {
 	BoardArray& board;
 	std::vector<std::shared_ptr<GamePiece>> pieces;
+	sf::Texture x_Texture;
+	sf::Texture o_Texture;
 
 public:
-	MarkerDisplay(BoardArray& board) : board(board) {};
+	MarkerDisplay(BoardArray& board);
 
 	void draw(sf::RenderTarget& window, sf::RenderStates states) const { for (auto itr : pieces) { window.draw(*itr); } }
-
 	void PrintArrayToConsole()
 	{
 		for (size_t i = 0; i < board.size(); ++i)
@@ -28,8 +29,6 @@ public:
 			std::cout << std::endl;
 		}
 	}
-
-
 	void updateBoard()
 	{
 		pieces.clear();
@@ -40,13 +39,13 @@ public:
 			{
 				if (board[i][j] == 'x')
 				{
-					std::shared_ptr<GamePiece> piece = std::make_shared<GamePiece>('x');
+					std::shared_ptr<GamePiece> piece = std::make_shared<GamePiece>(x_Texture);
 					piece->setPosition(sf::Vector2f(j * 200.f, i * 200.f + 100.f));
 					pieces.push_back(piece);
 				}
 				if (board[i][j] == 'o')
 				{
-					std::shared_ptr<GamePiece> piece = std::make_shared<GamePiece>('o');
+					std::shared_ptr<GamePiece> piece = std::make_shared<GamePiece>(o_Texture);
 					piece->setPosition(sf::Vector2f(j * 200.f, i * 200.f + 100.f));
 					pieces.push_back(piece);
 				}

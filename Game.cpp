@@ -1,10 +1,13 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), vsComputer(vsComputer), markerDisplay(board)
+	:window(window), vsComputer(vsComputer), markerDisplay(board), human(board, 'x'), human2(board,'o')
 {
 	isPlaying = true;
 	markerDisplay.updateBoard();
+
+
+	currentPlayer = &human;
 }
 
 void Game::Run()
@@ -25,6 +28,7 @@ void Game::HandleEvents()
 	{
 		menuButton.addEventHandler(window, event);
 		resetButton.addEventHandler(window, event);
+		currentPlayer->addEventHandler(window, event);
 		
 		if (event.type == sf::Event::Closed)
 		{
@@ -48,6 +52,10 @@ void Game::HandleEvents()
 					std::cout << "Reset Game\n";
 					markerDisplay.PrintArrayToConsole();
 				}
+
+				markerDisplay.updateBoard();
+				if (currentPlayer == &human) { currentPlayer = &human2; }
+				else { currentPlayer = &human; }
 			}
 		}
 	}
