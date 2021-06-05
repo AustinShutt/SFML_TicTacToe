@@ -1,13 +1,17 @@
 #pragma once
 #include "Definitions.h"
-#include <SFML/Graphics.hpp>
+#include "Background.h"
+#include "Buttons.h"
 
 class Game
 {
 	sf::RenderWindow& window;
+	Background background;
+	MenuButton menuButton;
+	ResetButton resetButton;
+	
 	bool vsComputer;
 	bool isPlaying;
-
 
 public:
 	Game(sf::RenderWindow& window, bool vsComputer);
@@ -18,5 +22,6 @@ private:
 	void Update();
 	void Render();
 
+private:
 };
 
