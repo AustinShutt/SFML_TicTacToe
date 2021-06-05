@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "Background.h"
 #include "Buttons.h"
+#include "MarkerDisplay.h"
 
 class Game
 {
@@ -15,10 +16,11 @@ class Game
 	//O_player
 	//playerPtr;
 
-	char board[3][3] = { {'-','-','-'},
-						 {'-','-','-'},
-						 {'-','-','-'} };
+	BoardArray board = {{{ 'x','-','o' },
+						 { 'x','o','-' },
+						 { '-','-','-' }}};
 	
+	MarkerDisplay markerDisplay;
 	bool vsComputer;
 	bool isPlaying;
 

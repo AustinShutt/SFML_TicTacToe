@@ -1,9 +1,10 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), vsComputer(vsComputer)
+	:window(window), vsComputer(vsComputer), markerDisplay(board)
 {
 	isPlaying = true;
+	markerDisplay.updateBoard();
 }
 
 void Game::Run()
@@ -37,16 +38,15 @@ void Game::HandleEvents()
 				sf::Vector2i windowPos = sf::Mouse::getPosition(window);
 				sf::Vector2f mousePos = window.mapPixelToCoords(windowPos);
 
-				
-				
-				if (menuButton.getGlobalBounds().contains(mousePos))
+				if (menuButton.isWithin(mousePos))
 				{
 					isPlaying = false;
 				}
 
-				if (resetButton.getGlobalBounds().contains(mousePos))
+				if (resetButton.isWithin(mousePos))
 				{
 					std::cout << "Reset Game\n";
+					markerDisplay.PrintArrayToConsole();
 				}
 			}
 		}
@@ -65,7 +65,7 @@ void Game::Render()
 	window.draw(background);
 	window.draw(menuButton);
 	window.draw(resetButton);
-	//window.draw(displayGrid);
+	window.draw(markerDisplay);
 
 	window.display();
 }
