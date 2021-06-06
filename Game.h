@@ -27,6 +27,7 @@ class Game
 	MarkerDisplay markerDisplay;
 	bool vsComputer;
 	bool isPlaying;
+	bool inEndGameState;
 
 public:
 	Game(sf::RenderWindow& window, bool vsComputer);
@@ -40,6 +41,7 @@ private:
 	//Helper Functions
 private:
 	void CheckVictoryConditions();
+	void CheckTieGame();
 	void SwitchCurrentPlayer();
 	void ResetGame();
 	void RandomizeFirstTurn();
