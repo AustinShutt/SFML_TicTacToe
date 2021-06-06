@@ -142,7 +142,7 @@ void Game::CheckTieGame()
 	{
 		for (size_t j = 0; j < board[0].size(); ++j)
 		{
-			if (board[i][j] != '-') { return; }
+			if (board[i][j] == '-') { return; }
 		}
 	}
 
