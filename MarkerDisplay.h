@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "GamePiece.h"
 #include <vector>
+#include <memory>
 
 class MarkerDisplay : public sf::Drawable
 {
