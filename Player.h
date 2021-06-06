@@ -3,10 +3,6 @@
 #include "EventHandler.h"
 #include <iostream>
 
-struct Move {
-	int i, j;
-};
-
 class Player : public EventHandler 
 {
 public:
@@ -30,7 +26,6 @@ public:
 
 	void makeMove() {};
 	void addEventHandler(sf::RenderWindow& window, sf::Event event);
-	
 };
 
 class AI_Player : public Player
@@ -38,6 +33,7 @@ class AI_Player : public Player
 public:
 	AI_Player(BoardArray& board, char piece) : Player(board, piece) {};
 
+	void addEventHandler(sf::RenderWindow& window, sf::Event event) {};
 	void makeMove() {};
 	void update() {};
 };

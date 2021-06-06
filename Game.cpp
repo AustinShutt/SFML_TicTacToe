@@ -1,8 +1,13 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), vsComputer(vsComputer), markerDisplay(board), human(board, 'x'), human2(board,'o')
+	:window(window), vsComputer(vsComputer), markerDisplay(board)
 {
+	X_Player = std::make_shared<Human_Player>(board, 'x');
+	
+	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); }
+	else { O_Player = std::make_shared<Human_Player>(board, 'o'); }
+
 	isPlaying = true;
 	RandomizeFirstTurn();
 }
@@ -79,8 +84,8 @@ void Game::Render()
 
 void Game::SwitchCurrentPlayer()
 {
-	if (currentPlayer == &human) { currentPlayer = &human2; }
-	else { currentPlayer = &human; }
+	if (currentPlayer == X_Player) { currentPlayer = O_Player; }
+	else { currentPlayer = X_Player; }
 }
 
 void Game::CheckVictoryConditions()
@@ -165,9 +170,9 @@ void Game::RandomizeFirstTurn()
 
 	if (rand_num == 0)
 	{
-		currentPlayer = &human;
+		currentPlayer = X_Player;
 		return;
 	}
 
-	currentPlayer = &human2;
+	currentPlayer = O_Player;
 }
