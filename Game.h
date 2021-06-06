@@ -15,11 +15,6 @@ class Game
 	Human_Player human2;
 	Player* currentPlayer;
 	
-
-	//Xplayer
-	//O_player
-	//playerPtr;
-
 	BoardArray board = {{{ '-','-','-' },
 						 { '-','-','-' },
 						 { '-','-','-' }}};

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "EventHandler.h"
+#include "Definitions.h"
 #include <iostream>
 
 class Button : public sf::Drawable, public EventHandler
@@ -29,4 +30,20 @@ class ResetButton : public Button
 {
 public:
 	ResetButton();
+};
+
+class VersusPlayerButton : public Button
+{
+public:
+	VersusPlayerButton();
+};
+class VersusComputerButton : public Button
+{
+public:
+	VersusComputerButton();
+};
+class ExitButton : public Button
+{
+public:
+	ExitButton();
 };

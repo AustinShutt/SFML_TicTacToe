@@ -55,7 +55,7 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	if (currentPlayer->turnFinished() && !inEndGameState)
+	if (currentPlayer->turnFinished() && inEndGameState == false)
 	{
 		currentPlayer->resetPlayer();
 		markerDisplay.updateBoard();
@@ -171,4 +171,3 @@ void Game::RandomizeFirstTurn()
 
 	currentPlayer = &human2;
 }
-

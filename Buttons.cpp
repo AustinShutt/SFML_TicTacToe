@@ -44,3 +44,27 @@ ResetButton::ResetButton()
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
 	sprite.setPosition(sf::Vector2f(432.f, 751.f));
 }
+
+VersusPlayerButton::VersusPlayerButton()
+{
+	texture.loadFromFile("Assets/vsPlayerButton.png");
+	sprite.setTexture(texture);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	sprite.setPosition(sf::Vector2f(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f));
+}
+
+VersusComputerButton::VersusComputerButton()
+{
+	texture.loadFromFile("Assets/vsComputerButton.png");
+	sprite.setTexture(texture);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	sprite.setPosition(sf::Vector2f(WINDOW_WIDTH /2.f, WINDOW_HEIGHT/3.f));
+}
+
+ExitButton::ExitButton()
+{
+	texture.loadFromFile("Assets/ExitButton.png");
+	sprite.setTexture(texture);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	sprite.setPosition(sf::Vector2f(WINDOW_WIDTH/2.f, WINDOW_HEIGHT * 2.f/3.f));
+}
