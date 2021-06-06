@@ -39,5 +39,10 @@ private:
 
 	//Helper Functions
 private:
+	void CheckVictoryConditions();
+	void SwitchCurrentPlayer();
+	void ResetGame();
+	void RandomizeFirstTurn();
+
 };
 

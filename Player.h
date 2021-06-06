@@ -15,9 +15,12 @@ public:
 	virtual void makeMove() = 0; //Pure virtual function makes class abstract
 	virtual void addEventHandler(sf::RenderWindow& window, sf::Event event) {};
 	virtual void update() {};
+	bool turnFinished() { return readyPass; }
+	void resetPlayer() { readyPass = false; }
 protected:
 	BoardArray& board;
 	char piece = 'a';
+	bool readyPass = false;
 };
 
 class Human_Player : public Player
