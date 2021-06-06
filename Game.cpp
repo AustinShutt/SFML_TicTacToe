@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), vsComputer(vsComputer), markerDisplay(board)
+	:window(window), board({{{ '-','-','-' }, { '-','-','-' }, { '-','-','-' }}}), vsComputer(vsComputer), markerDisplay(board)
 {
 	X_Player = std::make_shared<Human_Player>(board, 'x');
 	

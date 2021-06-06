@@ -13,14 +13,9 @@ class Game
 	ResetButton resetButton;
 	std::shared_ptr<Player> X_Player;
 	std::shared_ptr<Player> O_Player;
-	
-	//Human_Player human;
-	//Human_Player human2;
 	std::shared_ptr<Player> currentPlayer;
 	
-	BoardArray board = {{{ '-','-','-' },
-						 { '-','-','-' },
-						 { '-','-','-' }}};
+	BoardArray board; 
 	
 	MarkerDisplay markerDisplay;
 	bool vsComputer;
