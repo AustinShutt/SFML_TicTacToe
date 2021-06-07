@@ -33,7 +33,7 @@ class AI_Player : public Player
 public:
 	AI_Player(BoardArray& board, char piece) : Player(board, piece) {};
 	
-	void addEventHandler(sf::RenderWindow& window, sf::Event event);
+	void addEventHandler(sf::RenderWindow& window, sf::Event event) {};
 	void update();
 	
 private:

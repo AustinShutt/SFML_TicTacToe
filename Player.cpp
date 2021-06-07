@@ -17,18 +17,11 @@ void Human_Player::addEventHandler(sf::RenderWindow& window, sf::Event event)
 		int row = (mousePos.y - BOARD_TOP) / GRID_SIZE;
 		int column = mousePos.x / GRID_SIZE;
 
-		if (board[row][column] != '-') { std::cout << "Not valid Move\n"; return; }
+		if (board[row][column] != '-') { return; }
 
 		board[row][column] = piece; //Sets place to either 'x' or 'o' depending on what was passed in to constructor
 		readyPass = true;
-
-		std::cout << "Clicked on R:" << row << " C:" << column << std::endl;
 	}
-}
-
-void AI_Player::addEventHandler(sf::RenderWindow& window, sf::Event event)
-{
-  
 }
 
 void AI_Player::update()

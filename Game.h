@@ -4,6 +4,7 @@
 #include "Buttons.h"
 #include "MarkerDisplay.h"
 #include "Player.h"
+#include "ScoreBoard.h"
 
 class Game
 {
@@ -11,9 +12,12 @@ class Game
 	Background background; //background for tic tac toe game
 	MenuButton menuButton; //Menu Button exiting the game instance and returning to the menu
 	ResetButton resetButton; //Resets the board to prepare for the next game
+	ScoreBoard scoreBoard; //Keeps track of game store and displays it at the bottom of the screen
+	
 	std::shared_ptr<Player> X_Player; //Player shared ptr for player 1
 	std::shared_ptr<Player> O_Player; //shared Ptr for either computer or player 2 depending on selection from main menu
 	std::shared_ptr<Player> currentPlayer; //pointer that pointers to the player who's turn it is
+
 	
 	BoardArray board; //array<array<char,3u>,3u> for the game board
 	
@@ -37,5 +41,7 @@ private:
 	void SwitchCurrentPlayer(); //Switches the currentplayer pointer 
 	void ResetGame(); //Returns the game to the starting condition
 	void RandomizeFirstTurn(); //Draws a psuedo random number to decide which player goes first for each game
+	void AwardWinnerPoints(); //Awards points to the scoreboard in event of a win
+	void AwardTiePoints(); //Awards 0.5 points to both players in event of a tie
 };
 

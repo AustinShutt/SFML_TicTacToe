@@ -16,9 +16,9 @@ class MarkerDisplay : public sf::Drawable
 
 public:
 	MarkerDisplay(BoardArray& board);
+	void operator+(std::shared_ptr<GamePiece> piece); //Fulfills Operator Overloading '+'
 
 	void draw(sf::RenderTarget& window, sf::RenderStates states) const { for (auto itr : pieces) { window.draw(*itr); } }
 	void updateBoard();
-	
 };
 

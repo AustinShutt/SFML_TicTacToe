@@ -88,6 +88,7 @@ void Game::Render()
 	window.draw(menuButton);
 	window.draw(resetButton);
 	window.draw(markerDisplay);
+	window.draw(scoreBoard);
 
 	window.display();
 }
@@ -106,13 +107,13 @@ void Game::CheckVictoryConditions()
 	//Check Diagonals
 	if (board[0][0] != '-' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
 	{
-		std::cout << "Winner on Left Diagonal\n";
 		inEndGameState = true;
+		AwardWinnerPoints();
 	}
 	else if (board[0][2] != '-' && board[0][2] == board[1][1] && board[1][1] == board[2][0])
 	{
-		std::cout << "Winner on Right Diagonal\n";
 		inEndGameState = true;
+		AwardWinnerPoints();
 	}
 
 	//Check Rows
@@ -122,8 +123,8 @@ void Game::CheckVictoryConditions()
 		
 		if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
 		{
-			std::cout << "Winner on row: " << i << std::endl;
 			inEndGameState = true;
+			AwardWinnerPoints();
 			return;
 		}
 	}
@@ -135,13 +136,11 @@ void Game::CheckVictoryConditions()
 
 		if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
 		{
-			std::cout << "Winner on column: " << i << std::endl;
 			inEndGameState = true;
+			AwardWinnerPoints();
 			return;
 		}
 	}
-
-	
 }
 
 void Game::CheckTieGame()
@@ -157,7 +156,8 @@ void Game::CheckTieGame()
 	}
 
 	inEndGameState = true;
-	std::cout << "THERE IS A TIE GAME\n";
+
+	AwardTiePoints();
 }
 
 void Game::ResetGame()
@@ -185,4 +185,18 @@ void Game::RandomizeFirstTurn()
 	}
 
 	currentPlayer = O_Player;
+}
+
+void Game::AwardWinnerPoints()
+{
+	if (currentPlayer == X_Player)
+		scoreBoard << 1.0f; //Uses operator overload to award X_player points on scoreboard
+	else
+		scoreBoard >> 1.0f; //Uses operator overload to award O_Player points on scoreboard
+}
+
+void Game::AwardTiePoints()
+{
+	scoreBoard >> 0.5f; //Uses operator Overload to award X points
+	scoreBoard << 0.5f; //Uses operator overload to award O points
 }

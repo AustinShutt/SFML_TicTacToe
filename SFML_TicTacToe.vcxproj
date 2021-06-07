@@ -26,6 +26,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarkerDisplay.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="GamePiece.h" />
     <ClInclude Include="MarkerDisplay.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScoreBoard.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
