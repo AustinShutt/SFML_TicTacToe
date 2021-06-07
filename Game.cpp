@@ -59,7 +59,6 @@ void Game::HandleEvents()
 		if (inEndGameState) { continue; }
 
 		currentPlayer->addEventHandler(window, event); //Handles events for currentPlayer
-
 	}
 }
 
@@ -170,8 +169,6 @@ void Game::ResetGame()
 	inEndGameState = false;
 	markerDisplay.updateBoard();
 	RandomizeFirstTurn();
-	
-	std::cout << "Game has been Reset\n";
 }
 
 void Game::RandomizeFirstTurn()
