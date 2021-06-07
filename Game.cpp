@@ -1,38 +1,39 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), board({{{ '-','-','-' }, { '-','-','-' }, { '-','-','-' }}}), vsComputer(vsComputer), markerDisplay(board)
+	:window(window), board({{{ '-','-','-' }, { '-','-','-' }, { '-','-','-' }}}), markerDisplay(board)
 {
-	X_Player = std::make_shared<Human_Player>(board, 'x');
+	X_Player = std::make_shared<Human_Player>(board, 'x'); //Initializes player 1 ptr
 	
-	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); }
+	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); } //Initializes player 2 ptr
 	else { O_Player = std::make_shared<Human_Player>(board, 'o'); }
 
-	isPlaying = true;
-	RandomizeFirstTurn();
+	isPlaying = true; //Initializes the exit boolean flag
+	RandomizeFirstTurn(); //Randomly determines who has the first turn
 }
 
 void Game::Run()
 {
+	//Main game loop
 	while (isPlaying)
 	{
-		HandleEvents();
-		Update();
-		Render();
+		HandleEvents(); //
+		Update(); //
+		Render(); //
 	}
 }
 
 void Game::HandleEvents()
 {
-	sf::Event event;
+	sf::Event event; //Instantiates sfml event to be polled by window
 
 	while (window.pollEvent(event))
 	{
-		menuButton.addEventHandler(window, event);
-		resetButton.addEventHandler(window, event);
-		currentPlayer->addEventHandler(window, event);
+		menuButton.addEventHandler(window, event); //Handles events for window button
+		resetButton.addEventHandler(window, event); //Handles events for reset button
 		
-		if (event.type == sf::Event::Closed)
+		
+		if (event.type == sf::Event::Closed) //Closes SFML window if X is pressed on window
 		{
 			window.close();
 		}
@@ -44,17 +45,21 @@ void Game::HandleEvents()
 				sf::Vector2i windowPos = sf::Mouse::getPosition(window);
 				sf::Vector2f mousePos = window.mapPixelToCoords(windowPos);
 
-				if (menuButton.isWithin(mousePos))
+				if (menuButton.isWithin(mousePos)) //Checks if menubutton is pressed
 				{
 					isPlaying = false;
 				}
-
-				if (resetButton.isWithin(mousePos))
+				if (resetButton.isWithin(mousePos)) //
 				{
 					ResetGame();
 				}
 			}
 		}
+
+		if (inEndGameState) { continue; }
+
+		currentPlayer->addEventHandler(window, event); //Handles events for currentPlayer
+
 	}
 }
 
@@ -67,6 +72,11 @@ void Game::Update()
 		CheckVictoryConditions();
 		CheckTieGame();
 		SwitchCurrentPlayer();
+	}
+
+	if (inEndGameState == false)
+	{
+		currentPlayer->update();
 	}
 }
 
@@ -96,12 +106,12 @@ void Game::CheckVictoryConditions()
 	//Check Diagonals
 	if (board[0][0] != '-' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
 	{
-		std::cout << "Winner on Diagonal\n";
+		std::cout << "Winner on Left Diagonal\n";
 		inEndGameState = true;
 	}
 	else if (board[0][2] != '-' && board[0][2] == board[1][1] && board[1][1] == board[2][0])
 	{
-		std::cout << "Winner on other Diagonal\n";
+		std::cout << "Winner on Right Diagonal\n";
 		inEndGameState = true;
 	}
 
