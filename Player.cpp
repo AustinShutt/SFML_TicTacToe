@@ -62,48 +62,13 @@ sf::Vector2i AI_Player::minimax()
     return move;
 }
 
-bool AI_Player::checkWin(char gamePiece)
-{
-    for (size_t i = 0; i < board.size(); i++)
-    {
-        // Check horizontals
-        if (board[i][0] == gamePiece && board[i][1] == gamePiece && board[i][2] == gamePiece)
-            return true;
-
-        // Check verticals
-        if (board[0][i] == gamePiece && board[1][i] == gamePiece && board[2][i] == gamePiece)
-            return true;
-    }
-
-    // Check diagonals
-    if (board[0][0] == gamePiece && board[1][1] == gamePiece && board[2][2] == gamePiece)
-        return true;
-
-    if (board[0][2] == gamePiece && board[1][1] == gamePiece && board[2][0] == gamePiece)
-        return true;
-
-    return false;
-}
-
-bool AI_Player::checkTie()
-{
-    for (size_t i = 0; i < board.size(); i++)
-    {
-        for (size_t j = 0; j < board[0].size(); j++)
-        {
-            if (board[i][j] == '-') { return false; }
-        }
-    }
-    return true;
-}
-
 int AI_Player::maxSearch()
 {
-    if (checkWin('x')) { return 10; }
-    else if (checkWin('o')) { return -10; }
-    else if (checkTie()) { return 0; }
+    if (Utility::checkWin(board,'x')) { return 10; }
+    else if (Utility::checkWin(board,'o')) { return -10; }
+    else if (Utility::checkTie(board)) { return 0; }
 
-    int score = std::numeric_limits<int>::min();
+    int score = INT_MIN;
 
     for (unsigned int i = 0; i < 3; i++)
     {
@@ -123,15 +88,15 @@ int AI_Player::maxSearch()
 
 int AI_Player::minSearch()
 {
-    if (checkWin('x')) { return 10; }
-    else if (checkWin('o')) { return -10; }
-    else if (checkTie()) { return 0; }
+    if (Utility::checkWin(board,'x')) { return 10; }
+    else if (Utility::checkWin(board,'o')) { return -10; }
+    else if (Utility::checkTie(board)) { return 0; }
 
-    int score = std::numeric_limits<int>::max();
+    int score = INT_MAX;
 
-    for (unsigned int i = 0; i < 3; i++)
+    for (size_t i = 0; i < board.size(); i++)
     {
-        for (unsigned int j = 0; j < 3; j++)
+        for (size_t j = 0; j < board[0].size(); j++)
         {
             if (board[i][j] == '-')
             {

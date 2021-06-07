@@ -1,14 +1,14 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow& window, bool vsComputer)
-	:window(window), board({{{ '-','-','-' }, { '-','-','-' }, { '-','-','-' }}}), markerDisplay(board)
+	:window(window), board({{{ '-','-','-' }, { '-','-','-' }, { '-','-','-' }}}), markerDisplay(board) //initializer list 
 {
-	X_Player = std::make_shared<Human_Player>(board, 'x'); //Initializes player 1 ptr
+	X_Player = std::make_shared<Human_Player>(board, 'x'); //Initializes player1 ptr
 	
-	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); } //Initializes player 2 ptr
-	else { O_Player = std::make_shared<Human_Player>(board, 'o'); }
+	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); } //Initializes player2 ptr
+	else { O_Player = std::make_shared<Human_Player>(board, 'o'); } //Sets AI player if AI, HumanPlayer if Human
 
-	playState = PlayState::PLAYING;
+	playState = PlayState::PLAYING; //Initializes playstate enum
 	RandomizeFirstTurn(); //Randomly determines who has the first turn
 }
 
@@ -17,9 +17,9 @@ void Game::Run()
 	//Main game loop
 	while (playState != PlayState::EXITING)
 	{
-		HandleEvents(); //
-		Update(); //
-		Render(); //
+		HandleEvents(); //Handles Input and SFML events
+		Update(); //Updates necessary objects
+		Render(); //Outputs drawn entities to the window for display
 	}
 }
 
@@ -32,7 +32,6 @@ void Game::HandleEvents()
 		menuButton.addEventHandler(window, event); //Handles events for window button
 		resetButton.addEventHandler(window, event); //Handles events for reset button
 		
-		
 		if (event.type == sf::Event::Closed) //Closes SFML window if X is pressed on window
 		{
 			window.close();
@@ -42,22 +41,22 @@ void Game::HandleEvents()
 		{
 			if (event.key.code == sf::Mouse::Left)
 			{
-				sf::Vector2i windowPos = sf::Mouse::getPosition(window);
-				sf::Vector2f mousePos = window.mapPixelToCoords(windowPos);
+				sf::Vector2i windowPos = sf::Mouse::getPosition(window); //Finds mouseposition relative to window
+				sf::Vector2f mousePos = window.mapPixelToCoords(windowPos); //Converts to sf::Vector2f based on window mouse pos
 
-				if (menuButton.isWithin(mousePos)) //Checks if menubutton is pressed
+				if (menuButton.contains(mousePos)) //Checks if menubutton is pressed with left click
 				{
 					playState = PlayState::EXITING;
 					return;
 				}
-				if (resetButton.isWithin(mousePos)) //
+				if (resetButton.contains(mousePos)) //Checks if resetButton is pressed with left click
 				{
 					ResetGame();
 				}
 			}
 		}
 
-		if (playState == PlayState::PAUSED) { continue; }
+		if (playState == PlayState::PAUSED) { continue; } //Does not allow pieces to be placed if current game has ended
 
 		currentPlayer->addEventHandler(window, event); //Handles events for currentPlayer
 	}
@@ -65,19 +64,20 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	if (currentPlayer->turnFinished() && playState == PlayState::PLAYING)
-	{
-		currentPlayer->resetPlayer();
-		markerDisplay.updateBoard();
-		CheckVictoryConditions();
-		CheckTieGame();
-		SwitchCurrentPlayer();
-	}
+	if (playState != PlayState::PLAYING) { return; }
 
-	if (playState == PlayState::PLAYING)
-	{
-		currentPlayer->update();
-	}
+	currentPlayer->update(); 
+	
+	if (currentPlayer->turnFinished() == false) { return; }
+	//If currentplayer has taken their turn, the board is updated,
+	//Victory and TieGame states of the board are checked
+	//Turn is switched to the other player
+	currentPlayer->resetPlayer();
+	markerDisplay.updateBoard();
+	CheckVictoryConditions();
+	CheckTieGame();
+	SwitchCurrentPlayer();
+	
 }
 
 void Game::Render()
@@ -101,45 +101,12 @@ void Game::SwitchCurrentPlayer()
 
 void Game::CheckVictoryConditions()
 {
-
 	if (playState == PlayState::PAUSED) { return; }
 
-	//Check Diagonals
-	if (board[0][0] != '-' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
+	if (Utility::checkWin(board, currentPlayer->getPlayerPiece()))
 	{
-		playState = PlayState::PAUSED;
 		AwardWinnerPoints();
-	}
-	else if (board[0][2] != '-' && board[0][2] == board[1][1] && board[1][1] == board[2][0])
-	{
 		playState = PlayState::PAUSED;
-		AwardWinnerPoints();
-	}
-
-	//Check Rows
-	for (size_t i = 0; i < board.size(); ++i)
-	{
-		if (board[i][0] == '-') { continue; }
-		
-		if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
-		{
-			playState = PlayState::PAUSED;
-			AwardWinnerPoints();
-			return;
-		}
-	}
-
-	//Check Columns
-	for (size_t i = 0; i < board[0].size(); ++i)
-	{
-		if (board[0][i] == '-') { continue; }
-
-		if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
-		{
-			playState = PlayState::PAUSED;
-			AwardWinnerPoints();
-			return;
-		}
 	}
 }
 
@@ -147,20 +114,16 @@ void Game::CheckTieGame()
 {
 	if (playState == PlayState::PAUSED) { return; }
 
-	for (size_t i = 0; i < board.size(); ++i)
+	if (Utility::checkTie(board))
 	{
-		for (size_t j = 0; j < board[0].size(); ++j)
-		{
-			if (board[i][j] == '-') { return; }
-		}
+		playState = PlayState::PAUSED;
+		AwardTiePoints();
 	}
-
-	playState = PlayState::PAUSED;
-	AwardTiePoints();
 }
 
 void Game::ResetGame()
 {
+	//Sets board back to initial blank values
 	board = {{{ '-','-','-' },
 			  { '-','-','-' },
 			  { '-','-','-' }}};

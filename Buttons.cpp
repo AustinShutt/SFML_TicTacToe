@@ -12,7 +12,7 @@ void Button::addEventHandler(sf::RenderWindow& window, sf::Event event)
 		sf::Vector2i worldPos = sf::Mouse::getPosition(window);
 		sf::Vector2f mousePos = window.mapPixelToCoords(worldPos);
 
-		if (isWithin(mousePos))
+		if (contains(mousePos))
 		{
 			sprite.setScale(sf::Vector2f(1.2f, 1.2f));
 		}

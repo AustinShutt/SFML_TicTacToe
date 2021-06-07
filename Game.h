@@ -5,6 +5,7 @@
 #include "MarkerDisplay.h"
 #include "Player.h"
 #include "ScoreBoard.h"
+#include "Utility.h"
 
 enum class PlayState { PLAYING = 0, PAUSED, EXITING };
 
@@ -20,15 +21,10 @@ class Game
 	std::shared_ptr<Player> O_Player; //shared Ptr for either computer or player 2 depending on selection from main menu
 	std::shared_ptr<Player> currentPlayer; //pointer that pointers to the player who's turn it is
 
-	
 	BoardArray board; //array<array<char,3u>,3u> for the game board
-	
 	MarkerDisplay markerDisplay; //Holds a reference to the game board and draws the board each time a move is made from a player
-	
 	PlayState playState; //Enum to control flow during particular gamestates
 	
-	//bool isPlaying; //Boolean flag that signals when it's time to exit the game instance and return to the main menu
-	//bool inEndGameState; //Boolean flag that signals that the current game has ended and is awaiting a reset
 
 public:
 	Game(sf::RenderWindow& window, bool vsComputer);

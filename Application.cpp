@@ -45,19 +45,19 @@ void Application::HandleEvents()
 				sf::Vector2i worldPos = sf::Mouse::getPosition(window);
 				sf::Vector2f mousePos = window.mapPixelToCoords(worldPos);
 
-				if (vsComButton.isWithin(mousePos)) //Launches game vs computer if vsComButton is clicked
+				if (vsComButton.contains(mousePos)) //Launches game vs computer if vsComButton is clicked
 				{
 					Game game(window, true);
 					game.Run();
 					return;
 				}
-				else if (vsPlayButton.isWithin(mousePos)) //Launches game for pvp 
+				else if (vsPlayButton.contains(mousePos)) //Launches game for pvp 
 				{
 					Game game(window, false);
 					game.Run();
 					return;
 				}
-				else if (exitButton.isWithin(mousePos)) //Exits the application
+				else if (exitButton.contains(mousePos)) //Exits the application
 				{
 					window.close();
 				}
