@@ -8,14 +8,14 @@ Game::Game(sf::RenderWindow& window, bool vsComputer)
 	if (vsComputer) { O_Player = std::make_shared<AI_Player>(board, 'o'); } //Initializes player 2 ptr
 	else { O_Player = std::make_shared<Human_Player>(board, 'o'); }
 
-	isPlaying = true; //Initializes the exit boolean flag
+	playState = PlayState::PLAYING;
 	RandomizeFirstTurn(); //Randomly determines who has the first turn
 }
 
 void Game::Run()
 {
 	//Main game loop
-	while (isPlaying)
+	while (playState != PlayState::EXITING)
 	{
 		HandleEvents(); //
 		Update(); //
@@ -47,7 +47,8 @@ void Game::HandleEvents()
 
 				if (menuButton.isWithin(mousePos)) //Checks if menubutton is pressed
 				{
-					isPlaying = false;
+					playState = PlayState::EXITING;
+					return;
 				}
 				if (resetButton.isWithin(mousePos)) //
 				{
@@ -56,7 +57,7 @@ void Game::HandleEvents()
 			}
 		}
 
-		if (inEndGameState) { continue; }
+		if (playState == PlayState::PAUSED) { continue; }
 
 		currentPlayer->addEventHandler(window, event); //Handles events for currentPlayer
 	}
@@ -64,7 +65,7 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	if (currentPlayer->turnFinished() && inEndGameState == false)
+	if (currentPlayer->turnFinished() && playState == PlayState::PLAYING)
 	{
 		currentPlayer->resetPlayer();
 		markerDisplay.updateBoard();
@@ -73,7 +74,7 @@ void Game::Update()
 		SwitchCurrentPlayer();
 	}
 
-	if (inEndGameState == false)
+	if (playState == PlayState::PLAYING)
 	{
 		currentPlayer->update();
 	}
@@ -101,17 +102,17 @@ void Game::SwitchCurrentPlayer()
 void Game::CheckVictoryConditions()
 {
 
-	if (inEndGameState) { return; }
+	if (playState == PlayState::PAUSED) { return; }
 
 	//Check Diagonals
 	if (board[0][0] != '-' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
 	{
-		inEndGameState = true;
+		playState = PlayState::PAUSED;
 		AwardWinnerPoints();
 	}
 	else if (board[0][2] != '-' && board[0][2] == board[1][1] && board[1][1] == board[2][0])
 	{
-		inEndGameState = true;
+		playState = PlayState::PAUSED;
 		AwardWinnerPoints();
 	}
 
@@ -122,7 +123,7 @@ void Game::CheckVictoryConditions()
 		
 		if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
 		{
-			inEndGameState = true;
+			playState = PlayState::PAUSED;
 			AwardWinnerPoints();
 			return;
 		}
@@ -135,7 +136,7 @@ void Game::CheckVictoryConditions()
 
 		if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
 		{
-			inEndGameState = true;
+			playState = PlayState::PAUSED;
 			AwardWinnerPoints();
 			return;
 		}
@@ -144,7 +145,7 @@ void Game::CheckVictoryConditions()
 
 void Game::CheckTieGame()
 {
-	if (inEndGameState) { return; }
+	if (playState == PlayState::PAUSED) { return; }
 
 	for (size_t i = 0; i < board.size(); ++i)
 	{
@@ -154,8 +155,7 @@ void Game::CheckTieGame()
 		}
 	}
 
-	inEndGameState = true;
-
+	playState = PlayState::PAUSED;
 	AwardTiePoints();
 }
 
@@ -166,7 +166,7 @@ void Game::ResetGame()
 			  { '-','-','-' }}};
 
 	
-	inEndGameState = false;
+	playState = PlayState::PLAYING;
 	markerDisplay.updateBoard();
 	RandomizeFirstTurn();
 }

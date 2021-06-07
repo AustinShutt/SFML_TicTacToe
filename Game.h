@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "ScoreBoard.h"
 
+enum class PlayState { PLAYING = 0, PAUSED, EXITING };
+
 class Game
 {
 	sf::RenderWindow& window; //window reference passed from application in constructor
@@ -22,8 +24,11 @@ class Game
 	BoardArray board; //array<array<char,3u>,3u> for the game board
 	
 	MarkerDisplay markerDisplay; //Holds a reference to the game board and draws the board each time a move is made from a player
-	bool isPlaying; //Boolean flag that signals when it's time to exit the game instance and return to the main menu
-	bool inEndGameState; //Boolean flag that signals that the current game has ended and is awaiting a reset
+	
+	PlayState playState; //Enum to control flow during particular gamestates
+	
+	//bool isPlaying; //Boolean flag that signals when it's time to exit the game instance and return to the main menu
+	//bool inEndGameState; //Boolean flag that signals that the current game has ended and is awaiting a reset
 
 public:
 	Game(sf::RenderWindow& window, bool vsComputer);
