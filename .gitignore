@@ -335,3 +335,4 @@ ASALocalRun/
 *.vcxproj
 SFML_TicTacToe.vcxproj
 *.vcxproj
+SFML_TicTacToe/
