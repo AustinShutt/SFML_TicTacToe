@@ -332,6 +332,6 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
-*.vcxproj
-SFML_TicTacToe.vcxproj
-*.vcxproj
+#*.vcxproj
+#SFML_TicTacToe.vcxproj
+
